@@ -49,8 +49,6 @@ class Snake:
         return True;
 
     def pintado(self):
-        print("\033[%d;%dH" % (0, 0));
-
         self.comerFrutas();
         self.serpiente.mover(self.tamano);
         self.generarFrutas();

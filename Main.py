@@ -20,6 +20,7 @@ else:
     os.system("clear");
 
 while miJuego.puedoJugar():
+    print("\033[%d;%dH" % (0, 0));
     print(miJuego.pintado());
 
     time.sleep(0.25);
