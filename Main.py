@@ -1,29 +1,36 @@
 import os
-import platform
-import threading
 import time
+from threading import Thread
 
 import cursor
 
-from Snake import Snake
+from juego import Juego
 
-miJuego = Snake();
+miJuego = Juego(25, 25);
 
-actualizacion = threading.Thread(target=miJuego.actualizacion, daemon=True);
-actualizacion.start();
-
+os.system("cls");
 cursor.hide();
 
-if platform.system() == "Windows":
-    os.system("cls")
-else:
-    os.system("clear");
+class Input(Thread):
+    def __init__(self):
+        Thread.__init__(self);
 
-while miJuego.puedoJugar():
+    def run(self):
+        global miJuego;
+
+        while miJuego.jugar:
+            miJuego.input();
+
+input = Input();
+input.start();
+
+while miJuego.jugar:
     print("\033[%d;%dH" % (0, 0));
-    print(miJuego.pintado());
+    miJuego.update();
+    print(miJuego.draw());
+    time.sleep(0.15);
 
-    time.sleep(0.25);
+input.join();
 
-print(f"Has perdido! Has conseguido {miJuego.serpiente.puntos}.");
-print("Gracias por jugar");
+os.system("cls");
+print(f"¡Has perdido! Tu puntuación ha sido de {miJuego.puntos} y has recogido {int(miJuego.puntos / 12)} frutas");
